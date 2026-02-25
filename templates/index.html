@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern To-Do List</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container" id="mainView">
+        <header class="top-nav">
+            <i class="fa-solid fa-bars menu-icon" id="settingsBtn" style="cursor: pointer;"></i>
+            <h1 class="main-app-title" id="appTitle">TO-DO LIST</h1>
+            <input type="text" id="searchInput" class="search-input view-hidden" placeholder="Search tasks...">
+            <div class="nav-right" id="navRight">
+                <i class="fa-solid fa-magnifying-glass" id="searchBtn" style="cursor: pointer;"></i>
+                <div class="notification" id="notificationBtn" style="cursor: pointer;">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="badge"></span>
+                </div>
+            </div>
+        </header>
+
+        <section class="greeting">
+            <h2>Hey there, User</h2>
+            <p>Organize your plans for the day</p>
+        </section>
+
+        <section class="categories-section">
+            <h3>Categories</h3>
+            <div class="categories-list">
+                <div class="category-card" data-category="School">
+                    <div class="icon-bg" style="background: #f1f3f5;"><i class="fa-solid fa-graduation-cap"
+                            style="color: #495057;"></i></div>
+                    <span>School</span>
+                </div>
+                <div class="category-card" data-category="Design">
+                    <div class="icon-bg" style="background: #fff0f0;"><i class="fa-solid fa-bullseye"
+                            style="color: #ff6b6b;"></i></div>
+                    <span>Design</span>
+                </div>
+                <div class="category-card" data-category="Sport">
+                    <div class="icon-bg" style="background: #fff4e6;"><i class="fa-solid fa-football"
+                            style="color: #f76707;"></i></div>
+                    <span>Sport</span>
+                </div>
+                <div class="category-card" data-category="Business">
+                    <div class="icon-bg" style="background: #e7f5ff;"><i class="fa-solid fa-briefcase"
+                            style="color: #1971c2;"></i></div>
+                    <span>Business</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="tasks-section">
+            <div class="tabs-header">
+                <h3 id="tabToday" class="tab-btn active">Today's Tasks</h3>
+                <h3 id="tabCompleted" class="tab-btn inactive">Completed</h3>
+            </div>
+            <ul id="taskList" class="task-list">
+                <!-- Tasks will be injected here via JavaScript -->
+            </ul>
+            <ul id="completedTaskList" class="task-list view-hidden">
+                <!-- Completed Tasks will be injected here via JavaScript -->
+            </ul>
+        </section>
+
+        <button id="openAddTaskBtn" class="primary-btn">
+            <i class="fa-solid fa-plus"></i> Add a new task
+        </button>
+    </div>
+
+    <!-- Add Task Modal / Overlay View -->
+    <div class="app-container view-hidden" id="addTaskView">
+        <header class="top-nav">
+            <i class="fa-solid fa-arrow-left" id="backBtn" style="cursor: pointer;"></i>
+        </header>
+
+        <section class="add-task-form">
+            <h2>Add Task</h2>
+
+            <div class="form-group">
+                <label>Label</label>
+                <input type="text" id="taskInput" placeholder="Create Instagram post" autocomplete="off">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Start</label>
+                    <select id="taskStart">
+                        <option value="8am">8am</option>
+                        <option value="9am">9am</option>
+                        <option value="10am">10am</option>
+                        <option value="12pm">12pm</option>
+                        <option value="2pm">2pm</option>
+                        <option value="4pm">4pm</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>End</label>
+                    <select id="taskEnd">
+                        <option value="9am">9am</option>
+                        <option value="10am">10am</option>
+                        <option value="11am">11am</option>
+                        <option value="1pm">1pm</option>
+                        <option value="3pm">3pm</option>
+                        <option value="5pm">5pm</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+                <select id="taskCategory">
+                    <option value="Business">Business</option>
+                    <option value="School">School</option>
+                    <option value="Design">Design</option>
+                    <option value="Sport">Sport</option>
+                    <option value="General">General</option>
+                </select>
+            </div>
+
+        </section>
+
+        <button id="createTaskBtn" class="primary-btn">
+            Create task
+        </button>
+    </div>
+
+    <!-- Settings View -->
+    <div class="app-container view-hidden" id="settingsView">
+        <header class="top-nav">
+            <i class="fa-solid fa-arrow-left" id="closeSettingsBtn" style="cursor: pointer;"></i>
+            <h1 class="main-app-title">Settings</h1>
+            <div style="width: 24px;"></div>
+        </header>
+        <section class="settings-list">
+            <div class="setting-item">
+                <div class="setting-info">
+                    <i class="fa-solid fa-palette"></i>
+                    <span>Dark Mode</span>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-item" id="accountBtn" style="cursor: pointer;">
+                <div class="setting-info">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Account</span>
+                </div>
+                <i class="fa-solid fa-chevron-right text-light"></i>
+            </div>
+            <div class="setting-item" id="aboutBtn" style="cursor: pointer;">
+                <div class="setting-info">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>About</span>
+                </div>
+                <i class="fa-solid fa-chevron-right text-light"></i>
+            </div>
+        </section>
+    </div>
+
+    <!-- Account View -->
+    <div class="app-container view-hidden" id="accountView">
+        <header class="top-nav">
+            <i class="fa-solid fa-arrow-left" id="closeAccountBtn" style="cursor: pointer;"></i>
+            <h1 class="main-app-title">Account</h1>
+            <div style="width: 24px;"></div>
+        </header>
+        <section class="settings-list">
+            <div class="empty-state">Account details screen</div>
+        </section>
+    </div>
+
+    <!-- About View -->
+    <div class="app-container view-hidden" id="aboutView">
+        <header class="top-nav">
+            <i class="fa-solid fa-arrow-left" id="closeAboutBtn" style="cursor: pointer;"></i>
+            <h1 class="main-app-title">About</h1>
+            <div style="width: 24px;"></div>
+        </header>
+        <section class="settings-list">
+            <div class="empty-state">About information page</div>
+        </section>
+    </div>
+
+    <!-- Notifications View -->
+    <div class="app-container view-hidden" id="notificationsView">
+        <header class="top-nav">
+            <i class="fa-solid fa-arrow-left" id="closeNotificationsBtn" style="cursor: pointer;"></i>
+            <h1 class="main-app-title">Notifications</h1>
+            <div style="width: 24px;"></div>
+        </header>
+        <section class="notifications-list">
+            <div class="notification-item">
+                <div class="icon-bg" style="background: #e7f5ff; width: 40px; height: 40px; font-size: 1rem;">
+                    <i class="fa-solid fa-bell" style="color: var(--accent-blue);"></i>
+                </div>
+                <div class="notification-details">
+                    <p><strong>Reminder:</strong> Buy groceries</p>
+                    <span>10 mins ago</span>
+                </div>
+                <button class="dismiss-notification-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="notification-item">
+                <div class="icon-bg" style="background: #fff0f0; width: 40px; height: 40px; font-size: 1rem;">
+                    <i class="fa-solid fa-circle-exclamation" style="color: #ff6b6b;"></i>
+                </div>
+                <div class="notification-details">
+                    <p><strong>Overdue:</strong> Submit report</p>
+                    <span>1 hour ago</span>
+                </div>
+                <button class="dismiss-notification-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="noNotificationsMsg" class="empty-state view-hidden">
+                No new notifications
+            </div>
+        </section>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+[
+    {
+        "title": "Drawing",
+        "completed": true,
+        "time": "12pm - 1pm",
+        "category": "Design"
+    },
+    {
+        "title": "Play Cricket",
+        "completed": true,
+        "time": "4pm - 5pm",
+        "category": "Sport"
+    },
+    {
+        "title": "Learn Python",
+        "completed": false,
+        "time": "8am - 9am",
+        "category": "School"
+    },
+    {
+        "title": "Play Cricket",
+        "completed": false,
+        "time": "4pm - 5pm",
+        "category": "Sport"
+    },
+    {
+        "title": "Meet a Client",
+        "completed": false,
+        "time": "10am - 11am",
+        "category": "Business"
+    },
+    {
+        "title": "Home work",
+        "completed": false,
+        "time": "4pm - 11am",
+        "category": "School"
+    },
+    {
+        "title": "Develop Python Projects",
+        "completed": false,
+        "time": "2pm - 5pm",
+        "category": "School"
+    },
+    {
+        "title": "home work",
+        "completed": false,
+        "time": "8am - 9am",
+        "category": "School"
+    }
+]
