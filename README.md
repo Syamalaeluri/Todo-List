@@ -21,6 +21,7 @@ https://drive.google.com/file/d/1Q_LTL_3OVOaTry3ULzB1PxXfSIK5NkRJ/view?usp=shari
 
 ## 🚀 How to Run
 
+
 1. Install requirements
 2. Run app.py
 3. Open browser
