@@ -46,5 +46,11 @@
         "completed": false,
         "time": "8am - 9am",
         "category": "School"
+    },
+    {
+        "title": "Learn Java",
+        "completed": true,
+        "time": "4pm - 5pm",
+        "category": "School"
     }
 ]
