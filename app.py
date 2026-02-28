@@ -1,3 +1,6 @@
+"""
+Main application module for the To-Do List app.
+"""
 from flask import Flask, request, jsonify, render_template
 import json
 import os
@@ -39,10 +42,20 @@ def get_tasks():
         task['id'] = i + 1
     return jsonify({"tasks": tasks})
 
+@app.errorhandler(Exception)
+def handle_exception(e):
+    """Handle unhandled exceptions globally and return JSON."""
+    return jsonify({"error": "An internal error occurred", "details": str(e)}), 500
+
 @app.route('/api/tasks', methods=['POST'])
 def add_task():
-    data = request.json
-    title = data.get('title', '').strip()
+    data = request.get_json(silent=True) or {}
+    title = data.get('title', '')
+    if isinstance(title, str):
+        title = title.strip()
+    else:
+        title = ''
+        
     time_str = data.get('time', '')
     category = data.get('category', 'General')
     
@@ -65,12 +78,14 @@ def update_task(task_id):
     tasks = load_tasks()
     
     if 1 <= task_id <= len(tasks):
-        data = request.json
+        data = request.get_json(silent=True) or {}
         # Only support updating completed status right now
         if 'completed' in data:
             tasks[task_id - 1]['completed'] = bool(data['completed'])
             save_tasks(tasks)
             return jsonify({"message": "Task updated successfully"}), 200
+        else:
+            return jsonify({"error": "Missing 'completed' field"}), 400
             
     return jsonify({"error": "Task not found"}), 404
 
